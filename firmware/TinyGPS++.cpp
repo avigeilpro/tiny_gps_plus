@@ -29,13 +29,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <stdlib.h>
 
 #define _GPRMCterm   "GPRMC"
+#define _GNRMCterm   "GNRMC"
+#define _GARMCterm   "GARMC"
 #define _GPGGAterm   "GPGGA"
+#define _GNGGAterm   "GNGGA"
+#define _GAGGAterm   "GAGGA"
 
 // Converts degrees to radians.
-#define radians(angleDegrees) ((angleDegrees) * M_PI / 180.0)
+#define radians(angleDegrees) (angleDegrees * M_PI / 180.0)
  
 // Converts radians to degrees.
-#define degrees(angleRadians) ((angleRadians) * 180.0 / M_PI)
+#define degrees(angleRadians) (angleRadians * 180.0 / M_PI)
 
 #define TWO_PI 6.283185307179586476925286766559
 #define sq(x) ((x)*(x))
@@ -217,9 +221,9 @@ bool TinyGPSPlus::endOfTermHandler()
   // the first term determines the sentence type
   if (curTermNumber == 0)
   {
-    if (!strcmp(term, _GPRMCterm))
+    if ((!strcmp(term, _GPRMCterm)) || (!strcmp(term, _GNRMCterm)) || (!strcmp(term, _GARMCterm)))
       curSentenceType = GPS_SENTENCE_GPRMC;
-    else if (!strcmp(term, _GPGGAterm))
+    else if ((!strcmp(term, _GPGGAterm)) || (!strcmp(term, _GNGGAterm)) || (!strcmp(term, _GAGGAterm)))
       curSentenceType = GPS_SENTENCE_GPGGA;
     else
       curSentenceType = GPS_SENTENCE_OTHER;
